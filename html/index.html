@@ -1,40 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload Forms</title>
+    <title>G2R - A 2H NMR Predictor</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // JavaScript function to toggle between file input and dropdown list
+        function toggleOption() {
+            var fileInput = document.getElementById('customFile');
+            var dropdownList = document.getElementById('dropdownList');
+            var selectedOption = document.querySelector('input[name="option"]:checked').value;
+
+            if (selectedOption === 'file') {
+                fileInput.style.display = 'block';
+                dropdownList.style.display = 'none';
+            } else {
+                fileInput.style.display = 'none';
+                dropdownList.style.display = 'block';
+            }
+        }
+    </script>
 </head>
 <body>
-    <h1>Upload Files</h1>
+    <header>
+        <div class="header-title">G2R - A 2H NMR Predictor</div>
+    </header>
 
-    <!-- Form 1: Upload Images -->
-    <h2>Upload an Image</h2>
-    <form action="http://<your-vm-external-ip>:3000/upload_image" method="POST" enctype="multipart/form-data">
-        <label for="image">Choose an image:</label><br>
-        <input type="file" id="image" name="image" accept="image/*"><br><br>
-        <input type="submit" value="Upload Image">
-    </form>
+    <div class="container">
+        <!-- Sidebar for Dropdown Menu -->
+        <div class="sidebar">
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Upload Molecule</a></li>
+                    <li><a href="#">Info & Download</a></li>
+                    <li><a href="#">Group Page</a></li>
+                </ul>
+            </nav>
+        </div>
 
-    <hr>
+        <!-- Main Content -->
+        <div class="main-content">
+            <h2>Upload the File of Your Molecule</h2>
+            <form id="uploadForm" action="http://<your-vm-external-ip>:3000/upload_file" method="POST" enctype="multipart/form-data">
+                <label for="moleculeFile">Choose the file of your molecule (e.g., PDB, MOL):</label><br>
+                <input type="file" id="moleculeFile" name="moleculeFile" accept=".pdb,.mol,.sdf,.xyz" required><br><br>
 
-    <!-- Form 2: Upload Documents -->
-    <h2>Upload a Document</h2>
-    <form action="http://<your-vm-external-ip>:3000/upload_document" method="POST" enctype="multipart/form-data">
-        <label for="document">Choose a document (PDF, Word, etc.):</label><br>
-        <input type="file" id="document" name="document" accept=".pdf, .doc, .docx"><br><br>
-        <input type="submit" value="Upload Document">
-    </form>
+                <h2>Choose from List or Upload a Custom File</h2>
+                <label>
+                    <input type="radio" name="option" value="list" checked onclick="toggleOption()"> Select from List
+                </label>
+                <label>
+                    <input type="radio" name="option" value="file" onclick="toggleOption()"> Upload Custom File
+                </label>
+                <br><br>
 
-    <hr>
+                <div id="dropdownList">
+                    <label for="presetOptions">Choose an option:</label>
+                    <select id="presetOptions" name="presetOptions">
+                        <option value="None">None</option>
+                        <option value="CHL">CHL</option>
+                        <option value="POPE">POPE</option>
+                        <option value="POPG">POPG</option>
+                    </select>
+                </div>
 
-    <!-- Form 3: Upload Other Files -->
-    <h2>Upload Any File</h2>
-    <form action="http://<your-vm-external-ip>:3000/upload_file" method="POST" enctype="multipart/form-data">
-        <label for="anyfile">Choose any file:</label><br>
-        <input type="file" id="anyfile" name="anyfile"><br><br>
-        <input type="submit" value="Upload File">
-    </form>
+                <div id="customFile" style="display: none;">
+                    <label for="secondaryFile">Choose another file:</label><br>
+                    <input type="file" id="secondaryFile" name="secondaryFile"><br><br>
+                </div>
 
+                <br>
+                <button type="submit" class="submit-btn">Submit Query</button>
+            </form>
+
+            <!-- Footnote Section -->
+            <footer>
+                <hr>
+                <p>
+                    Please cite: Markus Fischer, Benedikt Schwarze, Nikola Ristic, Holger A. Scheidt:
+                    Predicting 2H NMR acyl chain order parameters with graph neural networks,
+                    <a href="https://doi.org/10.1016/j.compbiolchem.2022.107750" target="_blank">
+                        https://doi.org/10.1016/j.compbiolchem.2022.107750
+                    </a>
+                </p>
+            </footer>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,98 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Header Styling */
+header {
+    background-color: #000000; /* Black background */
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+    font-size: 24px;
+    color: #ffffff; /* White text */
+}
+
+/* Layout Styling */
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #f7f7f7;
+    padding: 20px;
+    height: 100vh;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+/* Navigation Menu */
+.nav-menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.nav-menu li {
+    margin-bottom: 15px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #007bff;
+}
+
+.nav-menu a:hover {
+    color: #0056b3;
+}
+
+/* Form Elements Styling */
+label {
+    font-size: 14px;
+    color: #555;
+}
+
+input[type="file"] {
+    margin-top: 10px;
+}
+
+button.submit-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button.submit-btn:hover {
+    background-color: #218838;
+}
+
+/* Footer Styling */
+footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+}
+
+footer a {
+    color: #007bff;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
