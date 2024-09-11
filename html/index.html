@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload Forms</title>
+</head>
+<body>
+    <h1>Upload Files</h1>
+
+    <!-- Form 1: Upload Images -->
+    <h2>Upload an Image</h2>
+    <form action="http://<your-vm-external-ip>:3000/upload_image" method="POST" enctype="multipart/form-data">
+        <label for="image">Choose an image:</label><br>
+        <input type="file" id="image" name="image" accept="image/*"><br><br>
+        <input type="submit" value="Upload Image">
+    </form>
+
+    <hr>
+
+    <!-- Form 2: Upload Documents -->
+    <h2>Upload a Document</h2>
+    <form action="http://<your-vm-external-ip>:3000/upload_document" method="POST" enctype="multipart/form-data">
+        <label for="document">Choose a document (PDF, Word, etc.):</label><br>
+        <input type="file" id="document" name="document" accept=".pdf, .doc, .docx"><br><br>
+        <input type="submit" value="Upload Document">
+    </form>
+
+    <hr>
+
+    <!-- Form 3: Upload Other Files -->
+    <h2>Upload Any File</h2>
+    <form action="http://<your-vm-external-ip>:3000/upload_file" method="POST" enctype="multipart/form-data">
+        <label for="anyfile">Choose any file:</label><br>
+        <input type="file" id="anyfile" name="anyfile"><br><br>
+        <input type="submit" value="Upload File">
+    </form>
+
+</body>
+</html>
