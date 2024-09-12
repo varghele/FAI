@@ -3,6 +3,7 @@
 :: Set variables
 set PROJECT_ID=fischerai
 set ZONE=europe-west10-b ::BERLIN
+set ZONE_NAME=fischerai-dns-zone
 set INSTANCE_NAME=nginx-main
 set MACHINE_TYPE=e2-micro
 set GITHUB_REPO=https://github.com/varghele/FAI.git
@@ -10,6 +11,9 @@ set STARTUP_SCRIPT_PATH=nginx-startup.sh
 
 :: Set GCP project
 CALL gcloud config set project %PROJECT_ID%
+
+:: Set up DNS zone for dynamic routing
+CALL gcloud dns --project=%PROJECT_ID% managed-zones create %ZONE_NAME% --description="" --dns-name="fischerai.com." --visibility="public" --dnssec-state="off"
 
 :: Create a new VM instance
 CALL gcloud compute instances create %INSTANCE_NAME% ^

@@ -1,6 +1,8 @@
 @echo off
+
 set PROJECT_ID=fischerai
 set ZONE=europe-west10-b
+set ZONE_NAME=fischerai-dns-zone
 
 :: Set GCP project
 CALL gcloud config set project %PROJECT_ID%
@@ -36,6 +38,12 @@ for /f "tokens=*" %%i in ('gsutil ls') do (
     echo Deleting Cloud Storage bucket: %%i
     gsutil -m rm -r %%i
 )
+
+:: Delete the Cloud DNS zone
+echo Deleting Cloud DNS zone %ZONE_NAME%...
+gcloud dns managed-zones delete %ZONE_NAME% --quiet
+
+echo Cloud DNS zone %ZONE_NAME% and its records have been deleted.
 
 :: Optional: Delete other resources like networks or load balancers if applicable (TODO!)
 
