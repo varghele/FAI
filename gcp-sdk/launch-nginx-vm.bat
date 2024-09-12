@@ -14,16 +14,6 @@ set STARTUP_SCRIPT_PATH=nginx-startup.sh
 :: Set GCP project
 CALL gcloud config set project %PROJECT_ID%
 
-:: Create the bucket with public access protection (no object versioning)
-gcloud storage buckets create gs://%BUCKET_NAME% --location=%REGION% --public-access-prevention --default-storage-class=STANDARD
-:: Optional: Enable uniform bucket-level access (optional)
-gcloud storage buckets update gs://%BUCKET_NAME% --uniform-bucket-level-access
-
-echo Bucket %BUCKET_NAME% created successfully without object versioning (soft delete recovery) and public access protection enabled.
-
-:: Set up DNS zone for dynamic routing
-CALL gcloud dns --project=%PROJECT_ID% managed-zones create %ZONE_NAME% --description="" --dns-name="fischerai.com." --visibility="public" --dnssec-state="off"
-
 :: Create a new VM instance
 CALL gcloud compute instances create %INSTANCE_NAME% ^
     --zone=%ZONE% ^
@@ -41,18 +31,6 @@ CALL gcloud compute instances create %INSTANCE_NAME% ^
     --reservation-affinity=any ^
     --metadata-from-file startup-script=%STARTUP_SCRIPT_PATH% ^
     --metadata GITHUB_REPO=%GITHUB_REPO%
-
-:: Allow HTTP traffic (port 80)
-CALL gcloud compute firewall-rules create nginx-allow-http ^
-    --allow=tcp:80 ^
-    --target-tags=tag-nginx-main ^
-    --description="Allow HTTP traffic on port 80"
-
-:: Allow TCP ingress (port 22)
-CALL gcloud compute firewall-rules create nginx-allow-ssh-tcp ^
-    --allow=tcp:22 ^
-    --target-tags=tag-nginx-main ^
-    --description="Allow TCP traffic on port 22"
 
 :: Output the external IP of the instance
 for /f "tokens=*" %%i in ('gcloud compute instances describe %INSTANCE_NAME% --zone=%ZONE% --format="get(networkInterfaces[0].accessConfigs[0].natIP)"') do set EXTERNAL_IP=%%i

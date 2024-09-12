@@ -2,103 +2,38 @@
 
 # Update package lists and install necessary packages: Nginx, Git, Python, and pip
 sudo apt update
-sudo apt install -y nginx git python3-pip python3-venv
+sudo apt install nginx python3-pip -y
+sudo apt install -y git
+
+# Install Flask and gunicorn to handle form uploads to the GCP bucket
+sudo pip3 install Flask gunicorn google-cloud-storage
+
+# Set up the directory for the Flask app
+FLASK_APP_DIR=/home/$USER/flask-app
+sudo mkdir -p $FLASK_APP_DIR
 
 # Enable and start Nginx
 sudo systemctl enable nginx
 sudo systemctl start nginx
 
 # Set variables for the project
-PROJECT_DIR="/home/yourusername/django_project"  # Change this to your project directory
+#PROJECT_DIR="/home/mgmfi/django_project"  # Change this to your project directory
 GITHUB_REPO=https://github.com/varghele/FAI.git
-GCP_BUCKET="your-gcp-bucket-name"                # Replace with your GCS bucket name
-SERVICE_ACCOUNT_JSON="/path/to/your/service-account.json"  # Path to your GCS service account
-DOMAIN="your-domain.com"                         # Replace with your domain or VM's public IP
+GCP_BUCKET="fischerai-1h1hnoesy-bucket"                # Replace with your GCS bucket name
+USER="mgmfi"
+# SERVICE_ACCOUNT_JSON="/path/to/your/service-account.json"  # Path to your GCS service account
+#DOMAIN="fischerai.com"                         # Replace with your domain or VM's public IP
 
-# Clone the GitHub repository and copy files to the Nginx web directory
-git clone $GITHUB_REPO /tmp/website
+# Clone the GitHub repository and copy files to the Nginx web directory and Flask directory
+sudo git clone $GITHUB_REPO /tmp/website
 sudo cp -r /tmp/website/html/* /var/www/html/
+sudo cp -r /tmp/website/flask/* $FLASK_APP_DIR
 sudo rm -rf /tmp/website  # Clean up the temporary directory
+
+
 
 # Restart Nginx to serve the new content
 sudo systemctl restart nginx
 
-# Create the Django project directory if it doesn't exist
-mkdir -p $PROJECT_DIR
-
-# Create and activate the virtual environment
-python3 -m venv $PROJECT_DIR/venv
-source $PROJECT_DIR/venv/bin/activate
-
-# Install Django, Gunicorn, and Google Cloud Storage SDK
-pip install django gunicorn google-cloud-storage
-
-# If your Django project already exists, skip the next step
-# Uncomment the following line to create a new Django project
-# django-admin startproject myproject $PROJECT_DIR
-
-# Change to the project directory and run Django migrations
-cd $PROJECT_DIR
-python manage.py migrate
-python manage.py collectstatic --noinput
-
-# Configure Gunicorn as a service
-sudo tee /etc/systemd/system/gunicorn.service > /dev/null <<EOF
-[Unit]
-Description=gunicorn daemon for Django project
-After=network.target
-
-[Service]
-User=yourusername  # Change this to your username
-Group=www-data
-WorkingDirectory=$PROJECT_DIR
-ExecStart=$PROJECT_DIR/venv/bin/gunicorn --workers 3 --bind unix:$PROJECT_DIR/gunicorn.sock myproject.wsgi:application
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-# Start and enable Gunicorn service
-sudo systemctl start gunicorn
-sudo systemctl enable gunicorn
-
-# Set up Nginx configuration for Django and static file serving
-sudo tee /etc/nginx/sites-available/django_project > /dev/null <<EOF
-server {
-    listen 80;
-    server_name $DOMAIN;
-
-    location / {
-        proxy_pass http://unix:$PROJECT_DIR/gunicorn.sock;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-    }
-
-    location /static/ {
-        alias $PROJECT_DIR/static/;
-    }
-
-    location /media/ {
-        alias $PROJECT_DIR/media/;
-    }
-
-    # Serve the static website content from GitHub at the root URL
-    location /website/ {
-        alias /var/www/html/;
-        try_files \$uri \$uri/ =404;
-    }
-}
-EOF
-
-# Enable the Nginx configuration for Django
-sudo ln -s /etc/nginx/sites-available/django_project /etc/nginx/sites-enabled
-sudo nginx -t
-sudo systemctl restart nginx
-
-# Configure firewall to allow HTTP traffic (Port 80)
-sudo ufw allow 'Nginx Full'
-
-# Optional: Set up Google Cloud Storage credentials for uploading files
-export GOOGLE_APPLICATION_CREDENTIALS=$SERVICE_ACCOUNT_JSON
+# Bind Flask to Gunicorn, bind port 8080 to 127.0.0.1
+sudo gunicorn --bind 127.0.0.1:8080 app:app
