@@ -2,7 +2,7 @@
 
 :: Set variables
 set PROJECT_ID=fischerai
-set ZONE=europe-west10-b
+set ZONE=europe-west10-b ::BERLIN
 set INSTANCE_NAME=nginx-main
 set MACHINE_TYPE=e2-micro
 set GITHUB_REPO=https://github.com/varghele/FAI.git
