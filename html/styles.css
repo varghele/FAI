@@ -1,11 +1,24 @@
 /* General Body Styling */
+* {
+    box-sizing: border-box; /* Include padding and borders in element's total width/height */
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
+
+p {
+    word-break: break-all; /* Breaks long words wherever necessary */
+}
+
 
 /* Header Styling */
 header {
@@ -13,35 +26,54 @@ header {
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensures full width */
+    overflow: hidden; /* Prevents any overflow */
 }
 
-.header-title {
-    font-size: 24px;
+header h1 {
+    font-size: 2.5rem;
     color: #ffffff; /* White text */
+}
+
+header p {
+    color: #ffffff; /* White text */
+    font-size: 1.2rem;
+    margin-top: 10px;
 }
 
 /* Layout Styling */
 .container {
     display: flex;
+    flex-grow: 1;
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
+/* Sidebar Styling */
 .sidebar {
     width: 200px;
     background-color: #f7f7f7;
     padding: 20px;
-    height: 100vh;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    height: auto;
+    min-height: 100%;
 }
 
+/* Main Content Styling */
 .main-content {
-    padding: 20px;
+    padding: 20px 50px;
     flex-grow: 1;
+    background-color: white;
+    min-height: 100%;
+    overflow-x: hidden; /* Prevents any horizontal overflow */
 }
 
-/* Navigation Menu */
+/* Navigation Menu Styling */
 .nav-menu ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .nav-menu li {
@@ -58,35 +90,74 @@ header {
     color: #0056b3;
 }
 
-/* Form Elements Styling */
-label {
-    font-size: 14px;
+/* Project Section Styling */
+.project-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.project {
+    background-color: #e8e8e8;
+    padding: 20px;
+    /* Removed border-radius to remove rounded corners */
+    transition: background-color 0.3s ease;
+}
+
+.project:hover {
+    background-color: #dcdcdc;
+}
+
+.project h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #007bff;
+    /* Remove underline from h3 links */
+    text-decoration: none;
+}
+
+.project p {
+    margin-bottom: 0;
+    font-size: 1rem;
     color: #555;
 }
 
-input[type="file"] {
-    margin-top: 10px;
+/* Remove underline from links in the project section */
+.project a {
+    text-decoration: none;
 }
 
+.project a:hover {
+    text-decoration: none; /* Ensure no underline on hover */
+}
+
+/* Submit Button Styling */
 button.submit-btn {
-    background-color: #28a745;
+    background-color: #4da6ff; /* Light blue background */
     color: white;
-    padding: 10px 20px;
+    padding: 15px 30px; /* Bigger padding to increase button size */
     border: none;
+    border-radius: 5px; /* Rounded corners */
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px; /* Larger font size */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
+/* Hover Effect */
 button.submit-btn:hover {
-    background-color: #218838;
+    background-color: #3399ff; /* Slightly darker blue on hover */
 }
 
 /* Footer Styling */
 footer {
-    margin-top: 20px;
+    background-color: #f7f7f7;
+    padding: 10px 0;
     text-align: center;
     font-size: 12px;
     color: #777;
+    width: 100%;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 footer a {

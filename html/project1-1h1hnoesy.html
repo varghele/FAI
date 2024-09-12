@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1H-1H NOESY Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>1H-1H NOESY Analysis</h1>
+        <p>Submit your data for 1H-1H NOESY Analysis</p>
+    </header>
+
+    <!-- Container with Sidebar and Main Content -->
+    <div class="container">
+        <!-- Sidebar Menu -->
+        <div class="sidebar">
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="project1-1h1hnoesy.html">1H-1H NOESY</a></li>
+                    <li><a href="project2-g2r.html">G2R - A 2H NMR Predictor</a></li>
+                    <li><a href="project3.html">WIP3</a></li>
+                    <li><a href="project4.html">WIP4</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h2>Submit Data for 1H-1H NOESY Analysis</h2>
+
+            <form id="noesyForm" action="/submit-noesy-data" method="POST" enctype="multipart/form-data">
+
+                <!-- Membrane Type Form -->
+                <label for="membraneType">Type of the Membrane:</label>
+                <input type="text" id="membraneType" name="membraneType" placeholder="Enter the type of membrane" required>
+                <br><br>
+
+                <!-- Order of the Peaks Form -->
+                <label for="peaksOrder">Order of the Peaks:</label>
+                <input type="text" id="peaksOrder" name="peaksOrder" placeholder="Enter the order of peaks (e.g., 1, 2, 3)" required>
+                <br><br>
+
+                <!-- Display Order of Peaks Form -->
+                <label for="displayOrder">Display Order of Peaks:</label>
+                <input type="text" id="displayOrder" name="displayOrder" placeholder="Enter display order of peaks" required>
+                <br><br>
+
+                <!-- Chemical Name Form -->
+                <label for="chemicalName">Name of the Chemical:</label>
+                <input type="text" id="chemicalName" name="chemicalName" placeholder="Enter chemical name" required>
+                <br><br>
+
+                <!-- PPM Values Form -->
+                <label for="ppmValues">PPM Values of the Chemical Peaks:</label>
+                <input type="text" id="ppmValues" name="ppmValues" placeholder="Enter PPM values (e.g., 1.23, 2.34, 3.45)" required>
+                <br><br>
+
+                <!-- Integrated Values for Mixing Times -->
+                <h3>Upload Integrated Values for Mixing Times:</h3>
+
+                <!-- 0ms -->
+                <label for="integratedValues0ms">Integrated Values for 0ms:</label>
+                <input type="file" id="integratedValues0ms" name="integratedValues0ms" accept=".csv,.txt" required>
+                <br><br>
+
+                <!-- 100ms -->
+                <label for="integratedValues100ms">Integrated Values for 100ms:</label>
+                <input type="file" id="integratedValues100ms" name="integratedValues100ms" accept=".csv,.txt" required>
+                <br><br>
+
+                <!-- 200ms -->
+                <label for="integratedValues200ms">Integrated Values for 200ms:</label>
+                <input type="file" id="integratedValues200ms" name="integratedValues200ms" accept=".csv,.txt" required>
+                <br><br>
+
+                <!-- 300ms -->
+                <label for="integratedValues300ms">Integrated Values for 200ms:</label>
+                <input type="file" id="integratedValues300ms" name="integratedValues200ms" accept=".csv,.txt" required>
+                <br><br>
+
+                <!-- 500ms -->
+                <label for="integratedValues500ms">Integrated Values for 500ms:</label>
+                <input type="file" id="integratedValues500ms" name="integratedValues500ms" accept=".csv,.txt" required>
+                <br><br>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">Submit Data</button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p><a href="https://github.com/varghele" target="_blank">GitHub</a> | <a href="impressum.html" target="_blank">Impressum</a></p>
+    </footer>
+
+</body>
+</html>
