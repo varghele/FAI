@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Set variables
-PROJECT_ID=<your-project-id>         # Replace with your GCP project ID
-ZONE=us-central1-a                   # Replace with your preferred zone
-INSTANCE_NAME=nginx-instance
-MACHINE_TYPE=e2-micro                # Small machine type (change as needed)
-GITHUB_REPO=https://github.com/username/repo.git   # Replace with your GitHub repository URL
+PROJECT_ID=fischerai         #  GCP project ID
+ZONE=europe-west10-b                   # Berlin
+INSTANCE_NAME=nginx-main
+MACHINE_TYPE=e2-micro                # smallest possible
+GITHUB_REPO=https://github.com/varghele/FAI/tree/main/html   # point to html folder on main branch
 
 # Set GCP project (replace with your project ID)
 gcloud config set project $PROJECT_ID
@@ -14,10 +14,18 @@ gcloud config set project $PROJECT_ID
 gcloud compute instances create $INSTANCE_NAME \
     --zone=$ZONE \
     --machine-type=$MACHINE_TYPE \
-    --image-family=debian-11 \
-    --image-project=debian-cloud \
     --boot-disk-size=10GB \
-    --tags=http-server
+    --tags=http-server \
+    --network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet=default \
+    --maintenance-policy=MIGRATE \
+    --provisioning-model=STANDARD \
+    --service-account=506359823535-compute@developer.gserviceaccount.com \
+    --create-disk=auto-delete=yes,boot=yes,device-name=instance-20240912-055812,image=projects/debian-cloud/global/images/debian-12-bookworm-v20240910,mode=rw,size=10,type=pd-balanced \
+    --no-shielded-secure-boot \
+    --shielded-vtpm \
+    --shielded-integrity-monitoring \
+    --labels=goog-ec-src=vm_add-gcloud \
+    --reservation-affinity=any \
 
 # Allow HTTP traffic (port 80)
 gcloud compute firewall-rules create default-allow-http \
