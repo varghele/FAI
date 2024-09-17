@@ -6,7 +6,9 @@ sudo apt install nginx python3-pip -y
 sudo apt install -y git
 
 # Install Flask and gunicorn to handle form uploads to the GCP bucket
-sudo pip3 install Flask gunicorn google-cloud-storage
+sudo apt-get install gunicorn
+
+sudo apt install python3-flask
 
 # Set up the directory for the Flask app
 FLASK_APP_DIR=~/home/$USER/flask-app
@@ -48,7 +50,7 @@ After=network.target
 [Service]
 User=$USER
 WorkingDirectory=$FLASK_APP_DIR
-ExecStart=/usr/local/bin/gunicorn --workers 3 --bind 127.0.0.1:8080 app:app
+ExecStart=/usr/bin/gunicorn --workers 3 --bind 127.0.0.1:8080 app:app
 
 [Install]
 WantedBy=multi-user.target
@@ -81,7 +83,7 @@ sudo nginx -t
 sudo systemctl restart nginx
 
 # Firewall configuration (if needed): Allow HTTP traffic (port 80)
-sudo ufw allow 'Nginx Full'
+#sudo ufw allow 'Nginx Full'
 
 # Bind Flask to Gunicorn, bind port 8080 to 127.0.0.1
 # sudo gunicorn --bind 127.0.0.1:8080 app:app
