@@ -9,6 +9,12 @@ sudo apt install -y git
 sudo apt install python3-flask -y
 #sudo apt install python3-gunicorn
 sudo apt-get install gunicorn -y
+# Create virtual directory for google-cloud -storage python module
+sudo apt install python3-venv -y
+sudo python3 -m venv nginx-venv
+source nginx-venv/bin/activate
+pip install google-cloud-storage
+
 
 # Enable and start Nginx
 sudo systemctl enable nginx
