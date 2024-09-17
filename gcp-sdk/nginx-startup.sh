@@ -6,9 +6,8 @@ sudo apt install nginx python3-pip -y
 sudo apt install -y git
 
 # Install Flask and gunicorn to handle form uploads to the GCP bucket
-sudo apt-get install gunicorn
-
 sudo apt install python3-flask
+sudo apt install python3-gunicorn
 
 # Set up the directory for the Flask app
 FLASK_APP_DIR=~/home/$USER/flask-app
