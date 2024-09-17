@@ -6,9 +6,9 @@ sudo apt install nginx python3-pip -y
 sudo apt install -y git
 
 # Install Flask and gunicorn to handle form uploads to the GCP bucket
-sudo apt install python3-flask
+sudo apt install python3-flask -y
 #sudo apt install python3-gunicorn
-sudo apt-get install gunicorn
+sudo apt-get install gunicorn -y
 
 # Enable and start Nginx
 sudo systemctl enable nginx
@@ -20,7 +20,7 @@ GITHUB_REPO=https://github.com/varghele/FAI.git
 GCP_BUCKET="fischerai-1h1hnoesy-bucket"                # Replace with your GCS bucket name
 USER="mgm_fischer"
 # Set up the directory for the Flask app
-FLASK_APP_DIR=~/home/$USER/flask-app
+FLASK_APP_DIR=~/flask-app
 # SERVICE_ACCOUNT_JSON="/path/to/your/service-account.json"  # Path to your GCS service account
 EXTERNAL_IP=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
 

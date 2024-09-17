@@ -13,7 +13,7 @@ if not app.secret_key:
     raise ValueError("No FLASK_SECRET_KEY set for Flask application")
 
 # Google Cloud Storage bucket name
-BUCKET_NAME = 'your-gcs-bucket-name'
+BUCKET_NAME = 'fischerai-1h1hnoesy-bucket'
 
 # Initialize Google Cloud Storage client
 storage_client = storage.Client()
@@ -75,4 +75,4 @@ def submit_noesy_data():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='127.0.0.1', port=8080)
