@@ -15,9 +15,9 @@ set STARTUP_SCRIPT_PATH=nginx-startup.sh
 CALL gcloud config set project %PROJECT_ID%
 
 :: Create the bucket with public access protection (no object versioning)
-gcloud storage buckets create gs://%BUCKET_NAME% --location=%REGION% --public-access-prevention --default-storage-class=STANDARD
+CALL gcloud storage buckets create gs://%BUCKET_NAME% --location=%REGION% --public-access-prevention --default-storage-class=STANDARD
 :: Optional: Enable uniform bucket-level access (optional)
-gcloud storage buckets update gs://%BUCKET_NAME% --uniform-bucket-level-access
+CALL gcloud storage buckets update gs://%BUCKET_NAME% --uniform-bucket-level-access
 
 echo Bucket %BUCKET_NAME% created successfully without object versioning (soft delete recovery) and public access protection enabled.
 
