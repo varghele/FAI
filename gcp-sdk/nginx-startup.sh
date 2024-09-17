@@ -20,7 +20,7 @@ GITHUB_REPO=https://github.com/varghele/FAI.git
 GCP_BUCKET="fischerai-1h1hnoesy-bucket"                # Replace with your GCS bucket name
 USER="mgm_fischer"
 # Set up the directory for the Flask app
-FLASK_APP_DIR=~/flask-app
+FLASK_APP_DIR=/home/mgm_fischer/flask-app
 # SERVICE_ACCOUNT_JSON="/path/to/your/service-account.json"  # Path to your GCS service account
 EXTERNAL_IP=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
 
@@ -32,7 +32,7 @@ echo "The external IP is: $EXTERNAL_IP"
 # Clone the GitHub repository and copy files to the Nginx web directory and Flask directory
 sudo mkdir -p ~/tmp/website
 sudo git clone $GITHUB_REPO ~/tmp/website
-sudo mkdir -p ~/var/www/html/ && sudo cp -a ~/tmp/website/html/* ~/var/www/html/
+sudo mkdir -p /var/www/html/ && sudo cp -a ~/tmp/website/html/* /var/www/html/
 sudo mkdir -p $FLASK_APP_DIR && sudo cp -a ~/tmp/website/flask/* $FLASK_APP_DIR
 # sudo cp -a ~/tmp/website/* $FLASK_APP_DIR
 sudo rm -rf ~/tmp/website  # Clean up the temporary directory
