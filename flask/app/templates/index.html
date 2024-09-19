@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Main Content -->
+    <div class="main-content">
+        <section id="projects">
+            <h2>My Projects</h2>
+            <div class="project-links">
+                <div class="project">
+                    <a href="{{ url_for('project1')}}">
+                        <h3>1H-1H-NOESY NMR Calculator</h3>
+                        <p>Web tool to ensure Holger never has to do this by hand again.</p>
+                    </a>
+                </div>
+                <div class="project">
+                    <a href="project2-g2r.html">
+                        <h3>G2R - A 2H NMR Predictor</h3>
+                        <p>Predicting 2H NMR acyl chain order parameters with a web-based tool.</p>
+                    </a>
+                </div>
+                <div class="project">
+                    <a href="project3.html">
+                        <h3>WIP3: AMPHORA</h3>
+                        <p>WIP.</p>
+                    </a>
+                </div>
+                <div class="project">
+                    <a href="project4.html">
+                        <h3>WIP4</h3>
+                        <p>WIP.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

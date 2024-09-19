@@ -2,16 +2,16 @@
 
 # Update package lists and install necessary packages: Nginx, Git, Python, and pip
 sudo apt update
-sudo apt install nginx python3-pip -y
+apt install nginx python3-pip -y
 sudo apt install -y git
 
 # Install Flask and gunicorn to handle form uploads to the GCP bucket
-sudo apt install python3-flask -y
+apt install python3-flask -y
 #sudo apt install python3-gunicorn
-sudo apt-get install gunicorn -y
+apt-get install gunicorn -y
 # Create virtual directory for google-cloud -storage python module
 sudo apt install python3-venv -y
-sudo python3 -m venv nginx-venv
+python3 -m venv nginx-venv
 source nginx-venv/bin/activate
 pip install google-cloud-storage
 

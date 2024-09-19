@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Submit 1H-1H NOESY Data
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <h2>Submit Data for 1H-1H NOESY Analysis</h2>
+
+    <!-- Flash message for success/failure -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Form -->
+    <div class="form-container">
+        <form method="POST" action="{{ url_for('project1') }}" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="grid-container">
+                <!-- Left Column Fields -->
+                <div class="form-group">
+                    <label for="membraneType">{{ form.membraneType.label }}</label>
+                    {{ form.membraneType(id="membraneType") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="peaksOrder">{{ form.peaksOrder.label }}</label>
+                    {{ form.peaksOrder(id="peaksOrder") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="displayOrder">{{ form.displayOrder.label }}</label>
+                    {{ form.displayOrder(id="displayOrder") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="chemicalName">{{ form.chemicalName.label }}</label>
+                    {{ form.chemicalName(id="chemicalName") }}
+                </div>
+
+                <!-- Right Column Fields -->
+                <div class="form-group">
+                    <label for="ppmValues">{{ form.ppmValues.label }}</label>
+                    {{ form.ppmValues(id="ppmValues") }}
+                </div>
+
+                <h3>Upload Integrated Values for Mixing Times:</h3>
+
+                <div class="form-group">
+                    <label for="integratedValues0ms">{{ form.integratedValues0ms.label }}</label>
+                    {{ form.integratedValues0ms(id="integratedValues0ms") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="integratedValues100ms">{{ form.integratedValues100ms.label }}</label>
+                    {{ form.integratedValues100ms(id="integratedValues100ms") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="integratedValues200ms">{{ form.integratedValues200ms.label }}</label>
+                    {{ form.integratedValues200ms(id="integratedValues200ms") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="integratedValues300ms">{{ form.integratedValues300ms.label }}</label>
+                    {{ form.integratedValues300ms(id="integratedValues300ms") }}
+                </div>
+
+                <div class="form-group">
+                    <label for="integratedValues500ms">{{ form.integratedValues500ms.label }}</label>
+                    {{ form.integratedValues500ms(id="integratedValues500ms") }}
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group">
+                {{ form.submit(class="submit-btn") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
