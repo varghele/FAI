@@ -1,4 +1,5 @@
 import os
+import uuid  # For generating unique IDs
 from flask import render_template, redirect, url_for, flash, request
 from app import app
 from app.forms import NOESYForm, G2RForm  # Correct import path
@@ -11,6 +12,7 @@ BUCKET_NAME = 'fischerai-1h1hnoesy-bucket'
 # Initialize Google Cloud Storage client
 storage_client = storage.Client()
 
+
 # Function to upload a file to Google Cloud Storage
 def upload_to_gcs(file, bucket_name, destination_blob_name):
     """Uploads a file to Google Cloud Storage and returns the public URL."""
@@ -19,6 +21,7 @@ def upload_to_gcs(file, bucket_name, destination_blob_name):
     blob.upload_from_file(file)
     return blob.public_url
 
+
 # Route for the index page
 @app.route('/')
 @app.route('/index')
@@ -26,13 +29,18 @@ def index():
     return render_template("index.html")
 
 
-# Route for the NOESY data submission page
 @app.route('/project1-1h1hnoesy', methods=['GET', 'POST'])
 def project1():
     form = NOESYForm()  # Instantiate the form
 
     if form.validate_on_submit():
         try:
+            # Generate a unique job ID for this submission
+            job_id = str(uuid.uuid4())
+
+            # Create a folder for this job in GCS (use the job_id as the folder name)
+            job_folder = f"noesy_jobs/{job_id}/"
+
             # Get form data
             membrane_type = form.membraneType.data
             peaks_order = form.peaksOrder.data
@@ -55,11 +63,11 @@ def project1():
             # Loop through the files, upload to GCS, and assign specific filenames
             for key, file in files.items():
                 if file:
-                    # Generate a custom filename
-                    custom_filename = f"{chemical_name}_{key}_{secure_filename(file.filename)}"
-                    blob_name = f"{chemical_name}/{key}/{custom_filename}"  # Path in GCS
+                    # Generate a custom filename and store it inside the job folder
+                    custom_filename = f"{key}_{secure_filename(file.filename)}"
+                    blob_name = f"{job_folder}{custom_filename}"  # Path in GCS
 
-                    # Upload the file to GCS
+                    # Upload the file to GCP bucket and get the file URL
                     file_url = upload_to_gcs(file, BUCKET_NAME, blob_name)
                     uploaded_file_urls[key] = file_url
 
@@ -81,8 +89,34 @@ def project2():
 
     # If the form is submitted and passes validation
     if form.validate_on_submit():
-        # Handle the form submission
-        flash('Data submitted successfully!', 'success')
+        # Generate a unique job ID for this submission
+        job_id = str(uuid.uuid4())
+
+        # Create a folder for this job in GCS (use the job_id as the folder name)
+        job_folder = f"g2r_jobs/{job_id}/"
+
+        # Handle the main molecule file upload
+        molecule_file = form.moleculeFile.data
+        if molecule_file:
+            # Generate custom filename and store it inside the job folder
+            molecule_filename = f"{job_folder}molecule_{secure_filename(molecule_file.filename)}"
+
+            # Upload to GCP bucket and get the file URL
+            molecule_file_url = upload_to_gcs(molecule_file, BUCKET_NAME, molecule_filename)
+            flash(f'Molecule file uploaded: {molecule_file_url}', 'success')
+
+        # Handle the secondary file upload if provided
+        secondary_file = form.secondaryFile.data
+        if secondary_file:
+            # Generate custom filename and store it inside the job folder
+            secondary_filename = f"{job_folder}secondary_{secure_filename(secondary_file.filename)}"
+
+            # Upload to GCP bucket and get the file URL
+            secondary_file_url = upload_to_gcs(secondary_file, BUCKET_NAME, secondary_filename)
+            flash(f'Secondary file uploaded: {secondary_file_url}', 'success')
+
+        # Redirect after successful upload
+        flash(f'Job {job_id} submitted successfully!', 'success')
         return redirect(url_for('project2'))
 
     # Render the template with the form passed as a variable
