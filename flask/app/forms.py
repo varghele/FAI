@@ -7,6 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_wtf.file import FileField, FileAllowed, FileRequired
+from wtforms import FileField, SelectField, RadioField, SubmitField
 
 
 class NOESYForm(FlaskForm):
@@ -57,3 +58,15 @@ class NOESYForm(FlaskForm):
 
     # Submit Button
     submit = SubmitField('Submit Data')
+
+
+class G2RForm(FlaskForm):
+    moleculeFile = FileField('Molecule File', validators=[DataRequired()])
+    presetOptions = SelectField('Choose from Preset Options', choices=[
+        ('None', 'None'), ('CHL', 'CHL'), ('POPE', 'POPE'), ('POPG', 'POPG')
+    ])
+    option = RadioField('Choose from List or Upload', choices=[
+        ('list', 'Select from List'), ('file', 'Upload Custom File')
+    ], default='list')
+    secondaryFile = FileField('Secondary File')
+    submit = SubmitField('Submit Query')

@@ -1,7 +1,7 @@
 import os
 from flask import render_template, redirect, url_for, flash, request
 from app import app
-from app.forms import NOESYForm  # Correct import path
+from app.forms import NOESYForm, G2RForm  # Correct import path
 from werkzeug.utils import secure_filename
 from google.cloud import storage
 
@@ -73,6 +73,20 @@ def project1():
 
     # Render the template with the form
     return render_template('project1-1h1hnoesy.html', form=form)
+
+
+@app.route('/project2-g2r', methods=['GET', 'POST'])
+def project2():
+    form = G2RForm()  # Instantiate the form
+
+    # If the form is submitted and passes validation
+    if form.validate_on_submit():
+        # Handle the form submission
+        flash('Data submitted successfully!', 'success')
+        return redirect(url_for('project2'))
+
+    # Render the template with the form passed as a variable
+    return render_template('project2-g2r.html', form=form)
 
 
 # Route for processing page with spinner
